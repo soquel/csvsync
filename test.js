@@ -23,6 +23,22 @@ test('csv reading and writing', function(t) {
 			js: [['Active "Sum"', 'bar'], ['3', '2'], ['4', '5']],
 		},
 		{
+			name: 'empty field in quotes',
+			csv: '"",1\n',
+			js: [['', '1']],
+			stringifyOpts: { quoteEmpty: true },
+		},
+		{
+			name: 'quoted quote at bol',
+			csv: '"""",1\n',
+			js: [['"', '1']],
+		},
+		{
+			name: 'quoted quote at eol',
+			csv: '1,""""\n',
+			js: [['1', '"']],
+		},
+		{
 			name: 'quotes in field at end of line',
 			csv: '"Active ""Sum""",bar\n3,2\n4,"some ""test"""\n',
 			js: [['Active "Sum"', 'bar'], ['3', '2'], ['4', 'some "test"']],

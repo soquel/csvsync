@@ -100,8 +100,9 @@ fs.writeFileSync('out_file.csv', csv);
 #### Options
 
 The `csvsync.stringify` function accepts an optional second parameter
-– an object with options.  Currently, two options are supported:
-`delimiter` (`','` by default) and `quoteAll` (`false` by default).
+– an object with options.  Currently, three are supported:
+`delimiter` (`','` by default), `quoteAll` (`false` by default), and
+`quoteEmpty` (`false` by default).
 
 # Installation
 

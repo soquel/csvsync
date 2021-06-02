@@ -7,6 +7,7 @@ function stringify(data, opts) {
 	opts = opts || {};
 	var delimiter = opts.delimiter || ',';
 	var quoteAll = opts.quoteAll;
+	var quoteEmpty = opts.quoteEmpty;
 
 	// iterate rows
 	return data.reduce(function(csv, row) {
@@ -20,6 +21,7 @@ function stringify(data, opts) {
 				// enclose the field in " " if it contains dangerous chars
 				if (
 					quoteAll ||
+					(quoteEmpty && field === '') ||
 					field.indexOf(delimiter) > -1 ||
 					field.indexOf('\n') > -1 ||
 					field.indexOf('"') > -1
@@ -124,6 +126,9 @@ function parse(csv, opts) {
 		// use ^^QUOTE@@ as this is something we don't expect to occur in the wild
 		line = line.replace(/^"""/, '"^^QUOTE@@');
 		line = line.replace(/,"""/g, ',"^^QUOTE@@');
+		line = line.replace(/,"",/g, ',,');
+		line = line.replace(/^"",/g, ',');
+		line = line.replace(/,""$/g, ',');
 		line = line.replace(/""/g, '^^QUOTE@@');
 
 		do {
